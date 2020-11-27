@@ -2,6 +2,33 @@
 #include<malloc.h>
 #include<math.h>
 #include<stdlib.h>
+#include<stdbool.h>
+
+/*
+int xorOperation(int n, int start) 
+{
+
+	int result = start;
+	for (int i = 0; i < n-1; i++)
+	{
+		result ^= start + 2 * (i + 1);
+	}
+	return result;
+}
+
+int main()
+{
+
+	int start = 0;
+	int result = start;
+	for (int i = 0; i < 4; i++)
+	{
+		result ^= start + 2 * (i + 1);
+	}
+	printf("%d\n", result);
+	return 0;
+}
+*/
 /*
 #define N 1000000007
 
