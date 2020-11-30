@@ -2,7 +2,47 @@
 #include<string.h>
 #include<stdio.h>
 #include<malloc.h>
+#include <stdlib.h>
+#include<ctype.h>
 
+int my_atoi(char *str)
+{
+
+	int num = 0;
+	int flag = 1;
+	size_t i = 0;
+	while (str[i] == ' ')
+	{
+		i++;
+	}
+	if (str[i] == '-')
+	{
+		flag = -1;
+		i++;
+	}
+	if (str[i] == '+')
+	{
+		i++;
+	}
+	while (isdigit(str[i]))
+	{
+		num = num * 10 + str[i] - '0';
+		i++;
+	}
+	return num*flag;
+
+}
+
+int main()
+{
+	char str[] = "-a1234";
+
+	int num=my_atoi(str);
+	printf("%d \n", num);
+	return 0;
+}
+
+/*
 typedef struct Test
 {
 	int a;
@@ -39,7 +79,7 @@ int main()
 
 	return 0;
 }
-
+*/
 /*
 typedef struct Test
 {
