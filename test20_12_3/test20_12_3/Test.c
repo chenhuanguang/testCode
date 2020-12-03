@@ -26,15 +26,20 @@ bool uniqueOccurrences(int* arr, int arrSize)
 		}
 	}
 
-	for (int i = 0; i < arrSize - 1; i++)
+	for (int i = 0; i < arrSize; i++)
 	{
+		if (i == arrSize - 1 )
+		{
+			arr[j++] = i - flag + 1;
+			break;
+		}
 		if (arr[i] != arr[i + 1])
 		{
-			arr[j++] = i - flag + 1;	 ///1 1 1 2 2 3
+			arr[j++] = i - flag + 1;	 ///1 1 1 2 2 3 
 			flag = i + 1;
 		}
+	
 	}
-	arr[j] = 1;
 	qsort(arr, j, sizeof(int), int_qsort);
 	for (int i = 0; i < j - 1; i++)
 	{
