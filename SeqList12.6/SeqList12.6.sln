@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1300
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SeqList12.6", "SeqList12.6\SeqList12.6.vcxproj", "{09B96B2D-0DA0-44F9-A8ED-C77CE60CCDDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09B96B2D-0DA0-44F9-A8ED-C77CE60CCDDC}.Debug|x64.ActiveCfg = Debug|x64
+		{09B96B2D-0DA0-44F9-A8ED-C77CE60CCDDC}.Debug|x64.Build.0 = Debug|x64
+		{09B96B2D-0DA0-44F9-A8ED-C77CE60CCDDC}.Debug|x86.ActiveCfg = Debug|Win32
+		{09B96B2D-0DA0-44F9-A8ED-C77CE60CCDDC}.Debug|x86.Build.0 = Debug|Win32
+		{09B96B2D-0DA0-44F9-A8ED-C77CE60CCDDC}.Release|x64.ActiveCfg = Release|x64
+		{09B96B2D-0DA0-44F9-A8ED-C77CE60CCDDC}.Release|x64.Build.0 = Release|x64
+		{09B96B2D-0DA0-44F9-A8ED-C77CE60CCDDC}.Release|x86.ActiveCfg = Release|Win32
+		{09B96B2D-0DA0-44F9-A8ED-C77CE60CCDDC}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C711536-8AF7-464C-B5C2-107B035DA1CB}
+	EndGlobalSection
+EndGlobal
