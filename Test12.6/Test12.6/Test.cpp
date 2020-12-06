@@ -1,7 +1,73 @@
 #include<iostream>
 #include<assert.h>
+#include<stdlib.h>
 using namespace std;
 
+int* singleNumbers(int* nums, int numsSize, int* returnSize) 
+{
+	*returnSize = 2;
+	int x = 0;
+	int y = 0;
+	int ret = 0;
+	int pos = 0;
+	int *pnum = (int*)malloc(sizeof(int) * 2);
+	for (int i = 0; i < numsSize; i++)
+	{
+		ret ^= nums[i];
+	}
+	for (int i = 0; i < 32; i++)
+	{
+		if (((ret >> i) & 1) == 1)
+			pos = i;
+	}
+	for (int i = 0; i < numsSize; i++)
+	{
+		if (((nums[i] >> pos) & 1) == 1)
+			x ^= nums[i];
+		else
+			y ^= nums[i];
+	}
+	pnum[0] = x;
+	pnum[1] = y;
+	return pnum;
+}
+
+int main()
+{
+	int nums[] = { 4,1,4,6 };
+	int numsSize = sizeof(nums) / sizeof(int);
+	int returnSize = 2;
+	int *pnums = singleNumbers(nums, numsSize, &returnSize);
+	printf("%d\n",pnums[0]);
+	return 0;
+}
+
+/*
+int missingNumber(int* nums, int numsSize) 
+{
+	int sum = 0;
+	int sum1 = 0;
+	for (int i = 0; i <= numsSize; i++)
+	{
+		sum += i;
+	}
+	for (int i = 0; i < numsSize; i++)
+	{
+		sum1 += nums[i];
+	}
+	return sum-sum1;
+}
+
+int main()
+{
+	int nums[] = { 9,6,4,2,3,5,7,0,1 };
+	int size = sizeof(nums) / sizeof(int);
+	int num = missingNumber(nums, size);
+	printf("%d\n", num);
+	return 0;
+}
+*/
+/*¶þ·Ö·¨
 int BinarySearch(int* a, int n, int x)
 {
 	assert(a);
@@ -28,7 +94,7 @@ int main()
 	printf("%d\n", a);
 	return 0;
 }
-
+*/
 /*Ã°ÅÝÅÅÐò
 void BubbleSort(int *a, int n)
 {
