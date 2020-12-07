@@ -42,3 +42,21 @@ int seqListSize(seqList* sl);
 
 //检查容量
 void seqListCheckCapacity(seqList* sl);
+
+//头插
+void seqListPushFront(seqList* sl, SLDataType val);
+
+//头删
+void seqListPopFront(seqList* sl);
+
+//任意插入
+void seqListInsert(seqList* sl, int pos, SLDataType val);
+
+//任意删除
+void seqListErase(seqList* sl, int pos);
+
+//查找返回索引
+int seqListFind(seqList* sl, SLDataType val);
+
+//销毁
+void seqListDestroy(seqList* sl); 
