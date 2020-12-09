@@ -128,13 +128,13 @@ void listErase(struct listNode* node , struct list* lst)
 {
 	if (lst->head == node)
 	{
-		free(lst->head);
+		listPopFront(lst);//头删
 	}
 	else
 	{
-		struct listNode* prev = lst->head;
-		struct listNode* cur = prev->next;
-		struct listNode* next = node->next;
+		struct listNode* prev = lst->head; //前一个节点
+		struct listNode* cur = prev->next; //当前节点
+		struct listNode* next = node->next; //记录要被删除的节点的下一个节点
 		while (cur != node)
 		{
 			prev = prev->next;
@@ -154,9 +154,8 @@ void test()
 	listPushBack(&lst, 2);
 	listPushBack(&lst, 3);
 	listPushBack(&lst, 4);
-	struct listNode* node = listFind(&lst, 2);
-	listInsertAfter(node, 30);
-	listEraseAfter(node);
+	struct listNode* node = listFind(&lst, 4);
+	listErase(node, &lst);
 	listDestroy(&lst);
 }
 
