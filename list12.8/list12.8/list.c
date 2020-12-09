@@ -154,8 +154,18 @@ void test()
 	listPushBack(&lst, 2);
 	listPushBack(&lst, 3);
 	listPushBack(&lst, 4);
-	struct listNode* node = listFind(&lst, 4);
+	listPushBack(&lst, 5);
+	listPushBack(&lst, 6);
+	listPushBack(&lst, 7);
+	listPushBack(&lst, 8);
+	listPushBack(&lst, 9);
+	listPushBack(&lst, 10);
+	struct listNode* node = listFind(&lst, 9);
+	struct listNode* node1 = listFind(&lst, 5);
+	struct listNode* node2 = listFind(&lst, 4);
 	listErase(node, &lst);
+	listErase(node1, &lst);
+	listErase(node2, &lst);
 	listDestroy(&lst);
 }
 
