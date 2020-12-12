@@ -40,25 +40,44 @@
 //	return true;
 //}
 
-bool checkRecord(char * s)
-{
-	int len = strlen(s);
+//bool checkRecord(char * s)
+//{
+//	int len = strlen(s);
+//
+//	for (int i = 0; i < len - 2; ++i)
+//	{
+//		if (s[i] == 'L'&&s[i + 1] == 'L'&&s[i + 2] == 'L')
+//			return false;
+//	}
+//	return true;
+//}
+//
+//int main()
+//{
+//	char *s = "LALL";
+//	int flag = checkRecord(s);
+//	printf("%d \n", flag);
+//	return 0;
+//}
 
-	for (int i = 0; i < len - 2; ++i)
+int reverse(int x)
+{
+	long sum = 0;
+	while (x != 0)
 	{
-		if (s[i] == 'L'&&s[i + 1] == 'L'&&s[i + 2] == 'L')
-			return false;
+		sum = sum * 10 + x % 10;
+		x=x / 10;
 	}
-	return true;
+	if ((int)sum != sum)
+		return 0;
+	return (int)sum;
 }
 
 int main()
 {
-	char *s = "LALL";
-	int flag = checkRecord(s);
-	printf("%d \n", flag);
+	int n =reverse(2147483648);
+	printf("%d \n", n);
 	return 0;
 }
-
 
 
