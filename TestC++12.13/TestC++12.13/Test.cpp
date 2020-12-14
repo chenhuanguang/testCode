@@ -188,6 +188,8 @@ using namespace std;
 class Date
 {
 public:
+
+	//获得当前年份月份的天数
 	int GetMonthDay(int year, int month)
 	{
 		static int monthDays[13] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
@@ -199,6 +201,7 @@ public:
 		return monthDays[month];
 	}
 
+	//构造函数
 	Date(int year = 0, int month = 1, int day = 1)
 	{
 		if (year >= 0 
@@ -215,7 +218,8 @@ public:
 		}
 		
 	}
-
+	
+	//拷贝函数
 	Date(const Date& d)
 	{
 		_year = d._year;
@@ -223,7 +227,18 @@ public:
 		_day = d._day;
 	}
 
-	bool operator<(const Date& d)
+	//只要出了作用域还在，就尽量用引用
+	Date& operator=(const Date& d) //传值返回会去调用拷贝构造
+	{
+		if(this != &d)
+		_year = d._year;
+		_month = d._month;
+		_day = d._day;
+		return *this; 
+	}
+
+	//判断当前日期是否比d日期小
+	inline bool operator<(const Date& d)
 	{
 		if (_year < d._year)
 		{
@@ -240,12 +255,13 @@ public:
 		return false;
 	}
 
-	bool operator==(const Date& d)
+	//判断当前日期和d日期是否相等
+	inline bool operator==(const Date& d)
 	{
 		return _year == d._year && _month == d._month && _day == d._day;
 	}
 
-	//d1<=d2 =>d1<d2||d1==d2
+	//d1<=d2 =>d1<d2||d1==d2 
 	bool operator<=(const Date& d)//bool operator<=(Date* this, const Date& d)
 	{
 		return *this < d || *this == d; //复用上面的实现
@@ -263,9 +279,119 @@ public:
 		return !(*this < d);
 	}
 
+	//d1!=d2
 	bool operator!=(const Date& d)
 	{
 		return !(*this == d);
+	}
+
+	//d1+10; 一个新的日期等于当前日期+天数
+	Date operator+(int day)
+	{
+		Date ret = *this; //用d1拷贝构造一个ret;
+		ret._day += day;
+		while (ret._day > GetMonthDay(ret._year, ret._month))
+		{
+			//如果日期的天不合法，就需要往月进位
+			ret._day -= GetMonthDay(ret._year, ret._month);
+			ret._month++;
+
+			if (ret._month == 13)
+			{
+				ret._year++;
+				ret._month = 1;
+			}
+		}
+		return ret;
+	}
+
+	//d1+=10
+	Date operator+=(int day)
+	{
+		_day += day;
+		while (_day > GetMonthDay(_year, _month))
+		{
+			_day -= GetMonthDay(_year, _month);
+			++_month;
+			if (_month == 13)
+			{
+				++_year;
+				_month = 1;
+			}
+		}
+		return *this;
+	}
+
+	Date& operator -= (int day)
+	{
+		_day -= day;
+		while (_day <= 0)
+		{
+			_month--;
+			if (_month == 0)
+			{
+				_year--;
+				_month = 12;
+			}
+			_day += GetMonthDay(_year, _month);
+		}
+		return *this;
+	}
+
+
+	Date operator-(int day)
+	{
+		Date ret = *this;
+		ret._day -= day;
+		while (ret._day<=0)
+		{
+			ret._month--;
+			if (ret._month == 0)
+			{
+				ret._year--;
+				ret._month = 12;
+			}
+			ret._day += GetMonthDay(ret._year, ret._month);
+		}
+		return ret;
+	}
+
+	//++d
+	Date& operator++()
+	{
+		_day ++;
+		while (_day > GetMonthDay(_year, _month))
+		{
+			_day -= GetMonthDay(_year, _month);
+			++_month;
+			if (_month == 13)
+			{
+				++_year;
+				_month = 1;
+			}
+		}
+		return *this;
+	}
+
+	Date& operator--()
+	{
+		_day --;
+		while (_day <= 0)
+		{
+			_month--;
+			if (_month == 0)
+			{
+				_year--;
+				_month = 12;
+			}
+			_day += GetMonthDay(_year, _month);
+		}
+		return *this;
+	}
+
+	int operator-(const Date& d) //返回天数
+	{
+
 	}
 
 	void print()
@@ -278,23 +404,33 @@ private:
 	int _day;
 };
 
+//自定义类型传参数和返回值时，在可以的情况下尽量使用引用，减少拷贝构造的调用
 int main()
 {
 	Date d;
 	d.print();
 
 	Date d2(2020, 12, 13);
-	d2.print();
 
 	Date d3(2021, 12, 14);
-	d3.print();
 
-	cout << (d3 < d2) << endl;
-	cout << (d3 > d2) << endl;
-	cout << (d3 == d2) << endl;
-	cout << (d3 != d2) << endl;
-	cout << (d3 <= d2) << endl;
-	cout << (d3 >= d2) << endl;
+	
+	////调用operator=
+	//d2 = d3;//两个对象都已经存在且初始化好了，现在我想把d2赋值（拷贝）给d1
+	////调用拷贝构造
+	//Date d4(d2);//d3还不存在，构造d3时用d1去初始化
+	//Date d5 = d2;//特别注意，这里是拷贝，不是operator=
+
+	/*1、我们不实现时，编译器生成的默认构造函数和析构函数，针对成员变量：
+	内置类型就不处理，自定义类型会调用这个成员对象的 构造和析构
+	  2、我们不实现时，编译器生成拷贝构造和operator=，会完成按字节的值拷贝（浅拷贝）
+	  也就是说有些类，我们是不需要去实现拷贝构造和operator=的，因为编译器默认生成就
+	  可以用，比如Date就是这样子的
+	*/
+
+	d2 = d3;
+	d2.print();
+	d3.print();
 
 	return 0;
 }
