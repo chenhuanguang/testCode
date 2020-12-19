@@ -166,25 +166,6 @@ void seqListDestroy(seqList* sl)
 	}
 }
 
-void listErase(struct list* lst, struct listNode* node)
-{
-	if(lst->head == NULL)
-		free(lst->head);
-	else
-	{
-		struct listNode* prev = lst->head;
-		struct listNode* cur = prev->next;
-		struct lsitNode* next = node->next;
-		while(cur!=node)
-		{
-			prev = prev->next;
-			cur = prev->next;
-		}
-		free(cur);
-		prev->next = next;
-	}
-}
-
 void test()
 {
 	seqList sl;
