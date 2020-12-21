@@ -15,7 +15,8 @@ void CheckCapacity(Stack* ps)
 	{
 		size_t newCapacity = ps->_capacity == 0 ? 4 : ps->_capacity * 2;
 		ps->_a = (STDataType*)realloc(ps->_a, newCapacity * sizeof(STDataType));
-		if (ps->_a)
+		if (!ps->_a)
+			return;
 			ps->_capacity = newCapacity;
 	}
 }
