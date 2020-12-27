@@ -15,6 +15,7 @@ typedef struct Queue
 {
 	struct QueueNode* _front;
 	struct QueueNode* _back;
+	int _size;
 }Queue;
 
 // 初始化队列 
