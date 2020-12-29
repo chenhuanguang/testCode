@@ -1,5 +1,7 @@
 #pragma once
-
+#include<string.h>
+#include<stdlib.h>
+#include<stdio.h>
 #define N 100
 
 typedef int SLDataType;

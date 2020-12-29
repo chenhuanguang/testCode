@@ -1,6 +1,4 @@
-#include<string.h>
-#include<stdlib.h>
-#include<stdio.h>
+
 #include"seqList.h"
 
 //初始化顺序表
@@ -73,7 +71,8 @@ void seqListCheckCapacity(seqList* sl)
 		int newCapacity = sl->capacity == 0 ? 1 : 2 * sl->capacity;
 		
 		sl->data = (SLDataType*)realloc(sl->data, newCapacity * sizeof(SLDataType));
-
+		if (sl->data)
+			return;
 
 		//更新容量
 		sl->capacity = newCapacity;
@@ -137,7 +136,7 @@ void seqListErase(seqList* sl, int pos)
 		return;
 	seqListCheckCapacity(sl);
 	int start = pos;
-	while (start < (sl->size))
+	while (start < (sl->size)-1)
 	{
 		sl->data[start] = sl->data[start + 1];
 		++start;
@@ -174,7 +173,8 @@ void test()
 	seqListpushBack(&sl, 2);
 	seqListpushBack(&sl, 3);
 	seqListPrint(&sl);
-	printf("%d \n", seqListFind(&sl, 2));
+	seqListpopBack(&sl);
+	seqListPrint(&sl);
 }
 
 //void test()
