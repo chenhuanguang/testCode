@@ -39,8 +39,8 @@ void listPopBack(struct list* lst)
 {
 	if (lst == NULL || lst->head == NULL)
 		return;
-	struct listNode* prev = lst->head;
-	struct listNode* cur = lst->head->next;
+	struct listNode* prev =NULL;
+	struct listNode* cur = lst->head;
 	while (cur->next!= NULL)
 	{
 		prev = cur;
@@ -49,13 +49,8 @@ void listPopBack(struct list* lst)
 	free(cur);
 	if (prev == NULL)
 	{
-		prev = NULL;
+		lst->head = NULL;
 	}
-	else
-	{
-		prev->next = NULL;
-	}
-	
 }
 
 void listPushFront(struct list* lst, LDataType val)
@@ -160,13 +155,17 @@ void test()
 	listPushBack(&lst, 8);
 	listPushBack(&lst, 9);
 	listPushBack(&lst, 10);
-	struct listNode* node = listFind(&lst, 9);
+	listPopBack(&lst);
+	listPopBack(&lst);
+	listPopBack(&lst);
+	listPopBack(&lst);
+	/*struct listNode* node = listFind(&lst, 9);
 	struct listNode* node1 = listFind(&lst, 5);
 	struct listNode* node2 = listFind(&lst, 4);
 	listErase(node, &lst);
 	listErase(node1, &lst);
 	listErase(node2, &lst);
-	listDestroy(&lst);
+	listDestroy(&lst);*/
 }
 
 int main()
