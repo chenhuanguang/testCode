@@ -58,3 +58,6 @@ void BHeapSort(heap* hp);
 
 //¥›ªŸ∂—
 void HeapDestory(heap* hp);
+
+//TopKŒ Ã‚
+void PrintTopK(int* a, int n, int k);

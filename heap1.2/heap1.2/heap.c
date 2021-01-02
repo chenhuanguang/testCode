@@ -201,6 +201,23 @@ void HeapDestory(heap* hp)
 	hp->_data = NULL;
 }
 
+void PrintTopK(int* a, int n, int k)
+{
+	heap hp;
+	HeapInit(&hp);
+	for (int i = 0; i < n; ++i)
+	{
+		BHeapPush(&hp, a[i]);
+	}
+
+	while (k--)
+	{
+		printf("%d ", HeapTop(&hp));
+		BHeapPop(&hp);
+	}
+	printf("\n");
+}
+
 void test()
 {
 	heap hp;
@@ -231,7 +248,10 @@ void test()
 
 int main()
 {
-	test();
+	//test();
+	int arr[] = { 54,56,98,35,75,12,3,6,9,8,546,235,1856,6985 };
+	int n = sizeof(arr) / sizeof(int);
+	PrintTopK(arr, n, 5);
 
 	return 0;
 }
