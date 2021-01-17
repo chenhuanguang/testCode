@@ -46,3 +46,9 @@ void BinaryTreeLevelOrder(Node* root);
 
 // 判断二叉树是否是完全二叉树 
 int BinaryTreeComplete(Node* root);
+
+//层序遍历二叉树
+void BinaryTreeLevelOrder(Node* root);
+
+//判断树是否为二叉树
+int BinaryTreeComplete(Node* root);

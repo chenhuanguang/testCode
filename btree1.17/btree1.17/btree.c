@@ -159,18 +159,25 @@ void BTreeDestory(Node** root)
 
 void BinaryTreeLevelOrder(Node* root)
 {
+	//队列
 	Queue q;
 	QueueInit(&q);
 
+	//将根节点先入队
 	if (root)
 		QueuePush(&q, root);
+	//只要队列不为空就继续循环
 	while (!QueueEmpty(&q))
 	{
+		//获取队头元素
 		Node* front = QueueFront(&q);
+		//出队
 		QueuePop(&q);
 		printf("%c ", front->_data);
+		//左孩子非空，入队
 		if (front->_left)
 			QueuePush(&q, front->_left);
+		//右孩子非空，入队
 		if (front->_right)
 			QueuePush(&q, front->_right);
 	}
@@ -194,7 +201,7 @@ int BinaryTreeComplete(Node* root)
 			QueuePush(&q, front->_right);
 		}
 		else
-		{
+		{ //遇到空结点，结束第一个循环，进入第二个循环去判断后面是否全为空结点
 			break;
 		}
 	}
@@ -203,7 +210,7 @@ int BinaryTreeComplete(Node* root)
 	{
 		Node* front = QueueFront(&q);
 		QueuePop(&q);
-
+		//有结点不为空，不是完全二叉树
 		if (front)
 			return 0;
 	}
@@ -219,7 +226,7 @@ void Test()
 	BinaryTreeLevelOrder(root);
 	int res = BinaryTreeComplete(root);
 	printf("\n");
-	printf("%d\n", res);
+	//printf("%d\n", res);
 }
 
 int main()
