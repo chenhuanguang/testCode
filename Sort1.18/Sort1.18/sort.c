@@ -3,6 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 void Swap(int* arr, int pos1, int pos2)
 {
@@ -156,6 +157,100 @@ void HeapSort(int* arr, int size)
 	}
 }
 
+void BubbleSort(int* arr, int size)
+{
+	int n = size - 1;
+	//用于记录每轮冒泡最后交换的位置，优化。
+	int pos = 0;
+
+	for (int i = 0; i < size; ++i)
+	{
+		//用于标记该轮冒泡是否有数据交换
+		bool flag = false;
+		for (int j = 0; j < n; ++j)
+		{
+			if (arr[j] > arr[j + 1])
+			{
+				Swap(arr, j, j + 1);
+				flag = true;
+				//最后一次交换位置，下轮冒泡时后面就不用遍历了。
+				pos = j;
+			}
+		}
+		if (flag != true)
+		{
+			//元素未交换，说明已有序，退出
+			break;
+		}
+		n = pos;
+	}
+}
+
+//获取基准值：三数取中法：起始， 中间， 结束
+int GetMid(int* arr, int begin, int end)
+{
+	int mid = begin + (end - begin) / 2;
+	if (arr[begin] > arr[mid])
+	{
+		if (arr[mid] > arr[end])
+			return mid;
+		else if (arr[begin] > arr[end])
+			return end;
+		else
+			return begin;
+	}
+	else
+	{
+		if (arr[mid] < arr[end])
+			return mid;
+		else if (arr[begin] < arr[end])
+			return end;
+		else
+			return begin;
+	}
+}
+
+//返回基准值位置
+int Partion(int* arr, int begin, int end)
+{
+	//获取基准值的位置
+	int mid = GetMid(arr, begin, end);
+	//把基准值放到起始位置
+	Swap(arr, begin, mid);
+	int key = arr[begin];
+	int start = begin;
+
+	while (begin < end)
+	{
+		//从后向前先找小于基准值的位置
+		while (begin < end && arr[end] >= key)
+		{
+			--end;
+		}
+		//从前向后再找大于基准值的位置
+		while (begin < end && arr[begin] <= key)
+		{
+			++begin;
+		}
+		Swap(arr, begin, end);
+	}
+	//交换相遇位置的数据和基准值
+	Swap(arr, start, begin);
+	return begin;
+}
+
+//数据有序时，没有优化可能会导致栈溢出（代码优化，重新找基准值）
+void QuickSort(int* arr, int begin, int end)
+{
+	if (begin >= end)
+		return;
+	//div:一次划分之后，基准值的位置
+	int div = Partion(arr, begin, end);
+	//左右两部分进行快速排序
+	QuickSort(arr, begin, div - 1);
+	QuickSort(arr, div + 1, end);
+}
+
 void PrintArr(int* arr, int size)
 {
 	for (int i = 0; i < size; ++i)
@@ -197,6 +292,22 @@ void TestHeapSort()
 	PrintArr(arr, size);
 }
 
+void TestBubbleSort()
+{
+	int arr[] = { 3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+	BubbleSort(arr, size);
+	PrintArr(arr, size);
+}
+
+void TestQuickSort()
+{
+	int arr[] = { 4, 1, 3, 7, 9, 2, 6, 5, 10, 8 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+	QuickSort(arr, 0, size - 1);
+	PrintArr(arr, size);
+}
+
 void Test()
 {
 	int n = 0;
@@ -232,6 +343,8 @@ int main()
 	//TestShellSort();
 	//Test();
 	//TestSelectSort();
-	TestHeapSort();
+	//TestHeapSort();
+	//TestBubbleSort();
+	TestQuickSort();
 	return 0;
 }
