@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "stack.h"
 
 void Swap(int* arr, int pos1, int pos2)
 {
@@ -210,7 +211,7 @@ int GetMid(int* arr, int begin, int end)
 	}
 }
 
-//返回基准值位置
+//hoare版本
 int Partion(int* arr, int begin, int end)
 {
 	//获取基准值的位置
@@ -239,16 +240,103 @@ int Partion(int* arr, int begin, int end)
 	return begin;
 }
 
+//挖坑法
+int Partion2(int* arr, int begin, int end)
+{
+	//获取基准值的位置
+	int mid = GetMid(arr, begin, end);
+	//把基准值放到起始位置
+	Swap(arr, begin, mid);
+	int key = arr[begin];
+	while (begin < end)
+	{
+		//从后向前先找小于基准值的位置
+		while (begin < end && arr[end] >= key)
+		{
+			--end;
+		}
+		arr[begin] = arr[end];
+		//从前向后再找大于基准值的位置
+		while (begin < end && arr[begin] <= key)
+		{
+			++begin;
+		}
+		arr[end] = arr[begin];
+	}
+	//相遇位置存放基准值
+	arr[begin] = key;
+	return begin;
+}
+
+//前后指针法
+int Partion3(int* arr, int begin, int end)
+{
+	//获取基准值的位置
+	int mid = GetMid(arr, begin, end);
+	//把基准值放到起始位置
+	Swap(arr, begin, mid);
+	int key = arr[begin];
+	int prev = begin;
+	int cur = begin + 1;
+	
+	while (cur <= end)
+	{
+		if (arr[cur] < key && ++prev != cur)
+		{
+			//不连续 交换数据
+			Swap(arr, prev, cur);
+		}
+
+		++cur;
+	}
+	Swap(arr, begin, prev);
+	return prev;
+}
+
 //数据有序时，没有优化可能会导致栈溢出（代码优化，重新找基准值）
 void QuickSort(int* arr, int begin, int end)
 {
 	if (begin >= end)
 		return;
 	//div:一次划分之后，基准值的位置
-	int div = Partion(arr, begin, end);
+	int div = Partion3(arr, begin, end);
 	//左右两部分进行快速排序
 	QuickSort(arr, begin, div - 1);
 	QuickSort(arr, div + 1, end);
+}
+
+//非递归快排 ,避免栈溢出风险
+void QuickSortNor(int* arr, int begin, int end)
+{
+	Stack st;
+	StackInit(&st);
+
+	StackPush(&st, end);
+	StackPush(&st, 0);
+
+	while (!StackEmpty(&st))
+	{
+		int left = StackTop(&st);
+		StackPop(&st);
+		int right = StackTop(&st);
+		StackPop(&st);
+
+		int div = Partion(arr, left, right);
+
+		//[left, div - 1]
+		if (left < div - 1)
+		{
+			StackPush(&st, div - 1);
+			StackPush(&st, left);
+		}
+		//[div + 1, right]
+		if (div + 1 < right)
+		{
+			StackPush(&st, right);
+			StackPush(&st, div + 1);
+		}
+
+	}
 }
 
 void PrintArr(int* arr, int size)
@@ -308,6 +396,14 @@ void TestQuickSort()
 	PrintArr(arr, size);
 }
 
+void TestQuickSortNor()
+{
+	int arr[] = { 4, 1, 3, 7, 9, 2, 6, 5, 10, 8 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+	QuickSortNor(arr, 0, size - 1);
+	PrintArr(arr, size);
+}
+
 void Test()
 {
 	int n = 0;
@@ -345,6 +441,7 @@ int main()
 	//TestSelectSort();
 	//TestHeapSort();
 	//TestBubbleSort();
-	TestQuickSort();
+	//TestQuickSort();
+	TestQuickSortNor();
 	return 0;
 }
