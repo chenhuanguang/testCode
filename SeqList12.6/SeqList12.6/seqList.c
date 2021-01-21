@@ -165,17 +165,22 @@ void seqListDestroy(seqList* sl)
 	}
 }
 
-void test()
+SLDataType seqListBack(seqList* sl)
 {
-	seqList sl;
-	initseqList(&sl);
-	seqListpushBack(&sl, 1);
-	seqListpushBack(&sl, 2);
-	seqListpushBack(&sl, 3);
-	seqListPrint(&sl);
-	seqListpopBack(&sl);
-	seqListPrint(&sl);
+	return sl->data[sl->size - 1];
 }
+
+//void test()
+//{
+//	seqList sl;
+//	initseqList(&sl);
+//	seqListpushBack(&sl, 1);
+//	seqListpushBack(&sl, 2);
+//	seqListpushBack(&sl, 3);
+//	seqListPrint(&sl);
+//	seqListpopBack(&sl);
+//	seqListPrint(&sl);
+//}
 
 //void test()
 //{
@@ -216,7 +221,7 @@ void test()
 //	seqListPrint(&sl);
 //}
 
-int main()
-{
-	test();
-}
+//int main()
+//{
+//	test();
+//}

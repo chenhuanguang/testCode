@@ -42,6 +42,8 @@ void seqListPrint(seqList* sl);
 //查看表的有效个数
 int seqListSize(seqList* sl);
 
+SLDataType seqListBack(seqList* sl);
+
 //检查容量
 void seqListCheckCapacity(seqList* sl);
 
