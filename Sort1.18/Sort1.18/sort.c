@@ -339,6 +339,142 @@ void QuickSortNor(int* arr, int begin, int end)
 	}
 }
 
+//合并序列函数
+void Merge(int* arr, int begin, int mid, int end, int* tmp)
+{
+	//区间1[begin, mid]
+	int begin1 = begin;
+	int end1 = mid;
+	//区间2[mid+1, end]
+	int begin2 = mid + 1;
+	int end2 = end;
+
+	//辅助空间的起始位置
+	int idx = begin;
+
+	//合并有序序列
+	while (begin1 <= end1 && begin2 <= end2)
+	{
+		//谁小谁先进
+		if (arr[begin1] <= arr[begin2])
+		{
+			tmp[idx++] = arr[begin1++];
+		}
+		else
+		{
+			tmp[idx++] = arr[begin2++];
+		}
+	}
+
+	//判断是否有未合并的元素，有就将剩余元素全部拷贝
+	if (begin1 <= begin1)
+	{
+		memcpy(tmp + idx, arr + begin1, sizeof(int) * (end1 - begin1 + 1));
+	}
+	if (begin2 <= begin2)
+	{
+		memcpy(tmp + idx, arr + begin2, sizeof(int) * (end2 - begin2 + 1));
+	}
+
+	//合并之后的序列考到原始数组的对应区间
+	memcpy(arr + begin, tmp + begin, sizeof(int) * (end - begin + 1));
+}
+
+void _MergeSort(int* arr, int begin, int end, int* tmp)
+{
+	//单个元素已经有序，不用排序
+	if (begin >= end)
+		return;
+	//获得中间索引
+	int mid = begin + (end - begin) / 2;
+
+	//首先合并子序列
+	//左边[begin, mid]
+	_MergeSort(arr, begin, mid, tmp);
+	//右边[mid+1,end]
+	_MergeSort(arr, mid + 1, end, tmp);
+
+	//合并两个有序的子序列[begin, mid]  [mid + 1, end]
+	Merge(arr, begin, mid, end, tmp);
+}
+
+//归并排序
+void MergeSort(int* arr, int n)
+{
+	//申请辅助空间
+	int* tmp = (int*)malloc(sizeof(int) * n);
+	_MergeSort(arr, 0, n - 1, tmp);
+	free(tmp);
+}
+
+void MergeSortNoR(int* arr, int n)
+{
+	int* tmp = (int*)malloc(sizeof(int) * n);
+	//步长：处理sept为一组的数据
+	int step = 1;
+	while (step < n)
+	{
+		//处理每一组的数据
+		for (int idx = 0; idx < n; idx += 2 * step)
+		{
+			//扎到两个待合并的子序列区间
+			//[begin, mid]  [mid + 1, end]
+			int begin = idx;
+			int mid = idx + step - 1;
+			//判断是否存在第二个序列
+			if (mid >= n - 1)
+			{
+				//不存在第二个子序列，直接跳过
+				continue;
+			}
+			int end = idx + 2 * step - 1;
+			//判断第二个子序列是否越界
+			if (end >= n)
+			{
+				end = n - 1;
+			}
+
+			//合并
+			Merge(arr, begin, mid, end, tmp);
+		}
+
+		//更新步长
+		step *= 2;
+	}
+}
+
+void CountSort(int* arr, int size)
+{
+	//找到最大和最小值
+	int max, min;
+	min = max = arr[0];
+	
+	for (int i = 1; i < size; ++i)
+	{
+		if (arr[i] > max)
+			max = arr[i];
+		if (arr[i] < min)
+			min = arr[i];
+	}
+
+	int range = max - min + 1;
+	int* countArr = (int*)calloc(range, sizeof(int));
+
+	for (int i = 0; i < size; ++i)
+	{
+		countArr[arr[i] - min]++;
+	}
+
+	int idx = 0;
+	for (int i = 0; i < range; ++i)
+	{
+		while (countArr[i]--)
+		{
+			arr[idx++] = i + min;
+		}
+	}
+}
+
 void PrintArr(int* arr, int size)
 {
 	for (int i = 0; i < size; ++i)
@@ -404,6 +540,30 @@ void TestQuickSortNor()
 	PrintArr(arr, size);
 }
 
+void TestMergeSort()
+{
+	int arr[] = { 3, 2, 6, 8, 1, 4, 9, 7 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+	MergeSort(arr, size);
+	PrintArr(arr, size);
+}
+
+void TestMergeSortNoR()
+{
+	int arr[] = { 3, 2, 6, 8, 1, 4, 9, 7 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+	MergeSortNoR(arr, size);
+	PrintArr(arr, size);
+}
+
+void TestCountSort()
+{
+	int arr[] = { 2, 5, 3, 5, 6, 3, 2, 2 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+	CountSort(arr, size);
+	PrintArr(arr, size);
+}
+
 void Test()
 {
 	int n = 0;
@@ -442,6 +602,9 @@ int main()
 	//TestHeapSort();
 	//TestBubbleSort();
 	//TestQuickSort();
-	TestQuickSortNor();
+	//TestQuickSortNor();
+	//TestMergeSort();
+	//TestMergeSortNoR();
+	TestCountSort();
 	return 0;
 }
