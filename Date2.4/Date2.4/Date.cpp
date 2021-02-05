@@ -182,11 +182,10 @@ public:
 		Date min = d;
 		Date max = *this;
 		int flag = 1;
-		if (min > max)
+		if (*this < d)
 		{
-			Date tmp = min;
-			min = max;
-			max = tmp;
+			min = *this;
+			max = d;
 			flag = -1;
 		}
 		int res = 0;
@@ -211,14 +210,14 @@ private:
 
 int main()
 {
-	Date d1(2025, 2, 2);
+	Date d1(2021, 2, 5);
 	Date d2(2021, 2, 3);
 	//d1 = d2;
 	//d1 = d2 + 3;
 	//d1 += -401;
-	//d1 -= -300;
-	//d1.Print();
-	cout << (d1 - d2) << endl;
+	d1 -= 1300;
+	d1.Print();
+	//cout << (d1 - d2) << endl;
 	//d2.Print();
 	//cout << (d2 < d1) << endl;
 	//Date d1(2021, 2, 4);
