@@ -243,18 +243,74 @@ public:
 		_str[_size] = '\0';
 	}
 
+	void append(const char* str)
+	{
+		//检查容量
+		int len = strlen(str);
+		if (_size + len > _capacity)
+		{
+			reserve(_size + len);
+		}
+
+		//尾插
+		memcpy(_str + _size, str, sizeof(char) * len);
+
+		//更新
+		_size += len;
+		_str[_size] = '\0';
+	}
+
+	String& operator+=(const String& str)
+	{
+		append(str._str);
+		return *this;
+	}
+	String& operator+=(const char* str)
+	{
+		append(str);
+		return *this;
+	}
+	String& operator+=(const char ch)
+	{
+		push_back(ch);
+		return *this;
+	}
+
+	
+
 private:
 	char* _str;
 	size_t _size;
 	size_t _capacity;
 };
 
+String operator+(const String& str1, const String& str2)
+{
+	String tmp = str1;
+	tmp += str2;
+	return tmp;
+}
+String operator+(const String& str1, const char* str2)
+{
+	String tmp = str1;
+	tmp += str2;
+	return tmp;
+}
+String operator+(const char& ch, const String& str1)
+{
+	String tmp = str1;
+	tmp += ch;
+	return tmp;
+}
+
 void test()
 {
-	String str = ("White");
-	str.resize(3); //Whi
-	str.resize(5, 'a'); //Whiaa
-	str.resize(10, 'b'); //Whiaabbbbb
+	String str1 = "abc";
+	String str2 = "def";
+	String str3 = str1 + str2; //abcdef
+	str3 = str2 + "123";//def123
+	str3 = 'a' + str2;//defa
+
 }
 
 int main()
