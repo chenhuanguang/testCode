@@ -276,13 +276,106 @@ public:
 		return *this;
 	}
 
-	
+	void insert(size_t pos, const char& ch)
+	{
+		//检查位置有效性
+		assert(pos <= _size);
+		//检查容量
+		if (_size == _capacity)
+		{
+			size_t  newCapacity = _capacity == 0 ? 15 : 2 * _capacity;
+			reserve(newCapacity);
+		}
+
+		//移动元素，从后往前移
+		size_t end = _size + 1;
+		while (end > pos)
+		{
+			_str[end] = _str[end - 1];
+			--end;
+		}
+		//插入新元素并更新有效字符个数
+		_str[pos] = ch;
+		++_size;
+	}
+
+	void insert(size_t pos, const char* str)
+	{
+		assert(pos <= _size);
+		int len = strlen(str);
+		if (_size + len >= _capacity)
+		{
+			reserve(_size + len);
+		}
+		size_t end = _size + len;
+		while (end > pos + len - 1)
+		{
+			_str[end] = _str[end - len];
+			--end;
+		}
+		memcpy(_str + pos, str, sizeof(char) * len);
+		_size += len;
+	}
+
+	void erase(size_t pos, size_t len)
+	{
+		//检查位置有效性
+		assert(pos < _size);
+		//要删除的个数大于剩下的字符个数
+		if (pos + len >= _size)
+		{
+			_size = pos;
+			_str[_size] = '\0';
+		}
+		else
+		{
+			//移动元素，从前向后移动
+			size_t start = pos + len;
+			while (start <= _size)
+			{
+				_str[pos++] = _str[start];
+				++start;
+			}
+			_size -= len;
+		}
+	}
+
+	size_t find(const char& ch, size_t pos = 0)
+	{
+		//检查位置的有效性
+		assert(pos < _size);
+		
+		for (size_t i = pos; i < _size; ++i)
+		{
+			if (_str[i] == ch)
+			{
+				return i;
+			}
+		}
+		return npos;
+	}
+
+	size_t find(const char* str, size_t pos = 0)
+	{
+		//返回值：
+		//NULL：未找到
+		//有效地址：子串出现的首地址
+		char* ptr = strstr(_str, str);
+		if (ptr != NULL)
+		{
+			return ptr - _str;
+		}
+		return npos;
+	}
 
 private:
 	char* _str;
 	size_t _size;
 	size_t _capacity;
+	static const size_t npos;
 };
+
+const size_t String::npos = -1;
 
 String operator+(const String& str1, const String& str2)
 {
@@ -303,14 +396,64 @@ String operator+(const char& ch, const String& str1)
 	return tmp;
 }
 
+ostream& operator<<(ostream& out, const String& str)
+{
+	for (const auto& ch : str)
+	{
+		cout << ch;
+	}
+	return out;
+}
+
+istream& operator>>(istream& in, String& str)
+{
+	char ch;
+	while (ch = getchar())
+	{
+		if (ch == ' ' || ch == '\n' || ch == '\t')
+		{
+			break;
+		}
+		str += ch;
+	}
+
+	return in;
+}
+
+bool operator==(const String& str1, const String& str2)
+{
+	int res =  strcmp(str1.c_str(), str2.c_str());
+	if (res == 0)
+		return true;
+	else
+		return false;
+}
+
+bool operator==(const String& str1, const char*& str)
+{
+	int res = strcmp(str1.c_str(),str);
+	if (res == 0)
+		return true;
+	else
+		return false;
+}
+
+bool operator!=(const String& str1, const String& str2)
+{
+	return !(str1 == str2);
+}
+
+bool operator!=(const String& str1, const char*& str)
+{
+	return !(str1 == str);
+}
+
 void test()
 {
-	String str1 = "abc";
-	String str2 = "def";
-	String str3 = str1 + str2; //abcdef
-	str3 = str2 + "123";//def123
-	str3 = 'a' + str2;//defa
-
+	String str1 = "White";
+	String str2 = "white";
+	cout << (str1 != str2) << endl;
+	cout << (str1 == "White") << endl;
 }
 
 int main()
