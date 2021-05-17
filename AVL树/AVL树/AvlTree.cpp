@@ -3,7 +3,7 @@
 using namespace std;
 
 template<class T>
-struct AVLNode
+struct AVLNode  
 {
 	AVLNode<T>* _parent;
 	AVLNode<T>* _left;  
