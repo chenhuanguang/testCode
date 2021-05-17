@@ -6,7 +6,7 @@ template<class T>
 struct AVLNode
 {
 	AVLNode<T>* _parent;
-	AVLNode<T>* _left;
+	AVLNode<T>* _left;  
 	AVLNode<T>* _right;
 	T _val;
 	int _bf;//Æ½ºâÒò×Ó
