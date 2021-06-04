@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "工厂方法模式", "工�
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "外观者模式", "外观者模式\外观者模式.vcxproj", "{689635F3-A5D6-4071-B454-4917C8728C8D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "观察者模式", "观察者模式\观察者模式.vcxproj", "{26CD6730-CA79-4567-84E3-1480CBDDE8B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{689635F3-A5D6-4071-B454-4917C8728C8D}.Release|x64.Build.0 = Release|x64
 		{689635F3-A5D6-4071-B454-4917C8728C8D}.Release|x86.ActiveCfg = Release|Win32
 		{689635F3-A5D6-4071-B454-4917C8728C8D}.Release|x86.Build.0 = Release|Win32
+		{26CD6730-CA79-4567-84E3-1480CBDDE8B0}.Debug|x64.ActiveCfg = Debug|x64
+		{26CD6730-CA79-4567-84E3-1480CBDDE8B0}.Debug|x64.Build.0 = Debug|x64
+		{26CD6730-CA79-4567-84E3-1480CBDDE8B0}.Debug|x86.ActiveCfg = Debug|Win32
+		{26CD6730-CA79-4567-84E3-1480CBDDE8B0}.Debug|x86.Build.0 = Debug|Win32
+		{26CD6730-CA79-4567-84E3-1480CBDDE8B0}.Release|x64.ActiveCfg = Release|x64
+		{26CD6730-CA79-4567-84E3-1480CBDDE8B0}.Release|x64.Build.0 = Release|x64
+		{26CD6730-CA79-4567-84E3-1480CBDDE8B0}.Release|x86.ActiveCfg = Release|Win32
+		{26CD6730-CA79-4567-84E3-1480CBDDE8B0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
