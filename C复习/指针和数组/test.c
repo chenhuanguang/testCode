@@ -140,7 +140,6 @@ void* Memmove(void* dest, const void* src, int cnt)
 			*pdest++ = *psrc++;
 		}
 	}
-
 	return dest;
 }
 
